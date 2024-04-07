@@ -3,6 +3,7 @@ package org.leonardo.passin.services;
 import lombok.RequiredArgsConstructor;
 import org.leonardo.passin.domain.attendee.Attendee;
 import org.leonardo.passin.domain.events.Event;
+import org.leonardo.passin.domain.events.exceptions.EventNotFoundException;
 import org.leonardo.passin.dto.event.EventIdDTO;
 import org.leonardo.passin.dto.event.EventRequestDTO;
 import org.leonardo.passin.dto.event.EventResponseDTO;
@@ -24,7 +25,7 @@ public class EventService {
         Optional<Event> event = this.eventRepository.findById(eventId);
 
         if (event.isEmpty()) {
-            throw new RuntimeException("Event not found with id: " + eventId);
+            throw new EventNotFoundException("Event not found with id: " + eventId);
         }
 
         List<Attendee> attendeeList = this.attendeeRepository.findByEventId(eventId);
