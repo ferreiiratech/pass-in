@@ -1,19 +1,5 @@
 /*C12*/SET SCHEMA PUBLIC
 SET SCHEMA "PUBLIC"
-CREATE TABLE attendees(\u000a    id VARCHAR(255) NOT NULL PRIMARY KEY,\u000a    name VARCHAR(255) NOT NULL,\u000a    email VARCHAR(255) NOT NULL,\u000a    event_id VARCHAR(255) NOT NULL,\u000a    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\u000a    CONSTRAINT attendees_event_id_fk FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE RESTRICT ON UPDATE CASCADE\u000a)
-INSERT INTO "flyway_schema_history" VALUES(2,'2','create-table-attendees','SQL','V2__create-table-attendees.sql',-356549205,'SA','2024-04-07 14:50:44.033813',20,'1')
-COMMIT
-SET SCHEMA "PUBLIC"
-CREATE TABLE check_ins(\u000a    id INTEGER NOT NULL PRIMARY KEY IDENTITY,\u000a    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,\u000a    attendee_id VARCHAR(255) NOT NULL,\u000a    CONSTRAINT check_ins_attendee_id_fk FOREIGN KEY (attendee_id) REFERENCES attendees (id) ON DELETE RESTRICT ON UPDATE CASCADE\u000a)
-INSERT INTO "flyway_schema_history" VALUES(3,'3','create-table-check ins','SQL','V3__create-table-check_ins.sql',911313531,'SA','2024-04-07 14:50:44.065975',4,'1')
-COMMIT
-SET SCHEMA "PUBLIC"
-CREATE UNIQUE INDEX event_slug_index ON events (slug)
-CREATE UNIQUE INDEX attendees_event_id_email_index ON attendees (event_id, email)
-CREATE UNIQUE INDEX check_ins_attendees_id_index ON check_ins (attendee_id)
-INSERT INTO "flyway_schema_history" VALUES(4,'4','create indexes','SQL','V4__create_indexes.sql',-823749854,'SA','2024-04-07 14:50:44.091090',3,'1')
-COMMIT
-SET SCHEMA "PUBLIC"
 DISCONNECT
 /*C13*/SET SCHEMA PUBLIC
 DISCONNECT
