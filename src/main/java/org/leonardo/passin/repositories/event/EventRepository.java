@@ -1,4 +1,4 @@
-package org.leonardo.passin.repositories;
+package org.leonardo.passin.repositories.event;
 
 import org.leonardo.passin.domain.events.Event;
 import org.springframework.data.jpa.repository.JpaRepository;

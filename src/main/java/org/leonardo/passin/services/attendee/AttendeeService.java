@@ -1,12 +1,12 @@
-package org.leonardo.passin.services;
+package org.leonardo.passin.services.attendee;
 
 import lombok.RequiredArgsConstructor;
 import org.leonardo.passin.domain.attendee.Attendee;
 import org.leonardo.passin.domain.checkin.CheckIn;
 import org.leonardo.passin.dto.attendee.AttendeeDetails;
 import org.leonardo.passin.dto.attendee.AttendeeListResponseDTO;
-import org.leonardo.passin.repositories.AttendeeRepository;
-import org.leonardo.passin.repositories.CheckInRepository;
+import org.leonardo.passin.repositories.attendee.AttendeeRepository;
+import org.leonardo.passin.repositories.checkIn.CheckInRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ public class AttendeeService {
 
     public List<Attendee> getAllAttendeesFromEvent(String eventId) {
 
-        return this.attendeeRepository.findByEventId(eventId);
+        return this.attendeeRepository.findAllByEventId(eventId);
     }
 
     public AttendeeListResponseDTO getEventAttendees(String eventId) {
@@ -30,9 +30,15 @@ public class AttendeeService {
         List<AttendeeDetails> attendeeDetailsList = attendeeList.stream().map(attendee -> {
             Optional<CheckIn> checkIn = this.checkInRepository.findByAttendeeId(attendee.getId());
 
-            LocalDateTime checkedInAt = checkIn.isPresent() ? checkIn.get().getCreatedAt() : null;
+            LocalDateTime checkedInAt = checkIn.map(CheckIn::getCreatedAt).orElse(null);
 
-            return new AttendeeDetails(attendee.getId(), attendee.getName(), attendee.getEmail(), attendee.getCreatedAt(), checkedInAt);
+            return new AttendeeDetails(
+                    attendee.getId(),
+                    attendee.getName(),
+                    attendee.getEmail(),
+                    attendee.getCreatedAt(),
+                    checkedInAt
+            );
         }).toList();
 
 

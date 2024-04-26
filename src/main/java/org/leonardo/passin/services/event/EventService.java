@@ -1,4 +1,4 @@
-package org.leonardo.passin.services;
+package org.leonardo.passin.services.event;
 
 import lombok.RequiredArgsConstructor;
 import org.leonardo.passin.domain.attendee.Attendee;
@@ -7,7 +7,9 @@ import org.leonardo.passin.domain.events.exceptions.EventNotFoundException;
 import org.leonardo.passin.dto.event.EventIdDTO;
 import org.leonardo.passin.dto.event.EventRequestDTO;
 import org.leonardo.passin.dto.event.EventResponseDTO;
-import org.leonardo.passin.repositories.EventRepository;
+import org.leonardo.passin.repositories.event.EventRepository;
+import org.leonardo.passin.services.attendee.AttendeeService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.text.Normalizer;
@@ -35,9 +37,7 @@ public class EventService {
     public EventIdDTO createEvent(EventRequestDTO eventRequestDTO) {
         Event newEvent = new Event();
 
-        newEvent.setTitle(eventRequestDTO.title());
-        newEvent.setDetails(eventRequestDTO.details());
-        newEvent.setMaximumAttendees(eventRequestDTO.maximumAttendees());
+        BeanUtils.copyProperties(eventRequestDTO, newEvent);
 
         newEvent.setSlug(this.createSlug(eventRequestDTO.title()));
 

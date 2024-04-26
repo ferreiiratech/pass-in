@@ -1,4 +1,4 @@
-package org.leonardo.passin.controllers;
+package org.leonardo.passin.controllers.attendee;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
