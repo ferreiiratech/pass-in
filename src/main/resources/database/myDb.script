@@ -29,7 +29,7 @@ SET FILES NIO TRUE
 SET FILES NIO SIZE 256
 SET FILES LOG TRUE
 SET FILES LOG SIZE 50
-SET FILES CHECK 658
+SET FILES CHECK 1152
 SET DATABASE COLLATION "SQL_TEXT" PAD SPACE
 CREATE USER SA PASSWORD DIGEST 'd41d8cd98f00b204e9800998ecf8427e'
 ALTER USER SA SET LOCAL TRUE
@@ -59,4 +59,7 @@ INSERT INTO "flyway_schema_history" VALUES(2,'2','create-table-attendees','SQL',
 INSERT INTO "flyway_schema_history" VALUES(3,'3','create-table-check ins','SQL','V3__create-table-check_ins.sql',911313531,'SA','2024-04-07 14:50:44.065975',4,'1')
 INSERT INTO "flyway_schema_history" VALUES(4,'4','create indexes','SQL','V4__create_indexes.sql',-823749854,'SA','2024-04-07 14:50:44.091090',3,'1')
 INSERT INTO EVENTS VALUES('0648759c-fd1d-4c5f-b100-597a05e04df0','Curso de Java Spring','Aprenda Java de forma gratuita','',400)
+INSERT INTO EVENTS VALUES('1df0abe1-bba4-4e63-8fa7-4fc106ea7fd7','Java - Spring','Aprenda Java de forma gratuita','java-spring',400)
 INSERT INTO EVENTS VALUES('d11caa10-83ca-4986-9a6f-f9405bece88a','Java Spring - Jala','Aprenda Java de forma gratuita','-',400)
+INSERT INTO ATTENDEES VALUES('d11caa10-83ca-4986-9a6f-f9405bece88a','Leonardo Ferreira','leo@gmail.com','d11caa10-83ca-4986-9a6f-f9405bece88a',NULL)
+INSERT INTO ATTENDEES VALUES('d11caa10-lp9a-4986-9a6f-f9405becejj9','Gerson Alves','gerson@gmail.com','d11caa10-83ca-4986-9a6f-f9405bece88a',NULL)
