@@ -2,6 +2,8 @@ package org.leonardo.passin.services.attendee;
 
 import lombok.RequiredArgsConstructor;
 import org.leonardo.passin.domain.attendee.Attendee;
+import org.leonardo.passin.domain.attendee.exceptions.AttendeeAlreadyExistException;
+import org.leonardo.passin.domain.attendee.exceptions.AttendeeNotFoundException;
 import org.leonardo.passin.domain.checkin.CheckIn;
 import org.leonardo.passin.dto.attendee.AttendeeDetails;
 import org.leonardo.passin.dto.attendee.AttendeeListResponseDTO;
@@ -43,5 +45,27 @@ public class AttendeeService {
 
 
         return new AttendeeListResponseDTO(attendeeDetailsList);
+    }
+
+    public void verifyAttendeeSubscription(String email, String eventId) {
+        Optional<Attendee> isAttendeeRegistered = this.attendeeRepository.findByEventIdAndEmail(eventId, email);
+
+        if (isAttendeeRegistered.isPresent()) {
+            throw new AttendeeAlreadyExistException("Attendee is already registered");
+        }
+    }
+
+    public Attendee registerAttendee(Attendee newAttendee) {
+        return this.attendeeRepository.save(newAttendee);
+    }
+
+    public void getAttendeeBadge(String attendeeId){
+        Optional<Attendee> attendee = attendeeRepository.findById(attendeeId);
+
+        if(attendee.isEmpty()){
+            throw new AttendeeNotFoundException("Attendee not found with id " + attendeeId);
+        }
+
+
     }
 }
