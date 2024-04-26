@@ -1,2 +1,3 @@
-package org.leonardo.passin.dto.attendee;public class AttendeeRequestDTO {
-}
+package org.leonardo.passin.dto.attendee;
+
+public record AttendeeRequestDTO(String name, String email) {}
