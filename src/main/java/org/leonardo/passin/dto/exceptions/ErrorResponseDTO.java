@@ -1,2 +1,4 @@
-package org.leonardo.passin.dto.exceptions;public class ErrorExceptionDTO {
+package org.leonardo.passin.dto.exceptions;
+
+public record ErrorResponseDTO (String message){
 }

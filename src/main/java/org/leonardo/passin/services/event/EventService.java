@@ -3,6 +3,7 @@ package org.leonardo.passin.services.event;
 import lombok.RequiredArgsConstructor;
 import org.leonardo.passin.domain.attendee.Attendee;
 import org.leonardo.passin.domain.events.Event;
+import org.leonardo.passin.domain.events.exceptions.EventExistException;
 import org.leonardo.passin.domain.events.exceptions.EventFullException;
 import org.leonardo.passin.domain.events.exceptions.EventNotFoundException;
 import org.leonardo.passin.dto.attendee.AttendeeIdDTO;
@@ -41,6 +42,12 @@ public class EventService {
 
         newEvent.setSlug(this.createSlug(eventRequestDTO.title()));
 
+        Optional<Event> isEvent = this.getEventBySlug(newEvent.getSlug());
+
+        if (isEvent.isPresent()) {
+            throw new EventExistException("Event exist with title " + newEvent.getTitle());
+        }
+
         this.eventRepository.save(newEvent);
 
         return new EventIdDTO(newEvent.getId());
@@ -67,11 +74,15 @@ public class EventService {
         return new AttendeeIdDTO(newAttendee.getId());
     }
 
+    private Optional<Event> getEventBySlug(String slug) {
+        return this.eventRepository.findBySlug(slug);
+    }
+
     private Event getEventById(String eventId) {
         Optional<Event> event = this.eventRepository.findById(eventId);
 
         if (event.isEmpty()) {
-            throw new EventNotFoundException("Event not found with id: " + eventId);
+            throw new EventNotFoundException("Event not found");
         }
 
         return event.get();

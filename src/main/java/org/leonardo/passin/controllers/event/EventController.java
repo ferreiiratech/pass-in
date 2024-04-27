@@ -1,7 +1,9 @@
 package org.leonardo.passin.controllers.event;
 
 import lombok.RequiredArgsConstructor;
+import org.leonardo.passin.dto.attendee.AttendeeIdDTO;
 import org.leonardo.passin.dto.attendee.AttendeeListResponseDTO;
+import org.leonardo.passin.dto.attendee.AttendeeRequestDTO;
 import org.leonardo.passin.dto.event.EventIdDTO;
 import org.leonardo.passin.dto.event.EventRequestDTO;
 import org.leonardo.passin.dto.event.EventResponseDTO;
@@ -15,8 +17,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/events")
 @RequiredArgsConstructor
+@RequestMapping("/events")
 public class EventController {
     private final EventService eventService;
     private final AttendeeService attendeeService;
@@ -39,12 +41,24 @@ public class EventController {
 
     }
 
+    @PostMapping("/{eventId}/attendees")
+    public ResponseEntity<AttendeeIdDTO> registerParticipant(@PathVariable String eventId, @RequestBody AttendeeRequestDTO attendeeRequestDTO, UriComponentsBuilder uriBuilder){
+        AttendeeIdDTO attendeeIdDTO = this.eventService.registerAttendeeOnEvent(eventId, attendeeRequestDTO);
+
+        URI uri = uriBuilder.path("/attendees/{attendeeId}/badge").buildAndExpand(attendeeIdDTO.attendeeId()).toUri();
+
+        return ResponseEntity.created(uri).body(attendeeIdDTO);
+
+    }
+
     @GetMapping("/attendees/{eventId}")
     public ResponseEntity<AttendeeListResponseDTO> getEventAttendees(@PathVariable String eventId){
         AttendeeListResponseDTO attendeeListResponseDTO = this.attendeeService.getEventAttendees(eventId);
 
         return ResponseEntity.status(HttpStatus.OK).body(attendeeListResponseDTO);
     }
+
+
 
 
 }
