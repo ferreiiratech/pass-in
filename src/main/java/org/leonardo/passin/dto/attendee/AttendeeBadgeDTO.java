@@ -1,4 +1,4 @@
 package org.leonardo.passin.dto.attendee;
 
-public record AttendeeBadgeDTO(BadgeDTO badge) {
+public record BadgeDTO(String name, String email, String checkInUrl, String eventId) {
 }
